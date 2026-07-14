@@ -1,7 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:111827,100:ff7e00&height=200&section=header&text=🍃%20Arogya%20Plan%20AI&fontSize=46&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=ML-Powered%20Personalized%20Diet%20Recommendation%20System&descAlignY=58&descSize=18" />
-
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:111827,100:f9f900&height=200&section=header&text=🍃%20Arogya%20Plan%20AI&fontSize=46&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=ML-Powered%20Personalized%20Diet%20Recommendation%20System&descAlignY=58&descSize=18" />
 
 <br/>
 
@@ -10,40 +9,27 @@
 [![Scikit-learn](https://img.shields.io/badge/Scikit--Learn-KNN-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)](https://scikit-learn.org)
 [![Pandas](https://img.shields.io/badge/Pandas-EDA-150458?style=for-the-badge&logo=pandas&logoColor=white)](https://pandas.pydata.org)
 [![Plotly](https://img.shields.io/badge/Plotly-Charts-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)](https://plotly.com)
-[![Status](https://img.shields.io/badge/Status-Live-22c55e?style=for-the-badge)](https://diet-recommendation-system-2drzcfznrwqxxtr2ou6vny.streamlit.app/)
 
 <br/>
 
 > **Analyze health metrics → Predict your ideal diet → Live better.**
-> 
-> An end-to-end machine learning system that recommends a fully personalized diet plan  
+>
+> An end-to-end machine learning system that recommends a personalized diet plan
 > based on your BMI, sugar levels, cholesterol, activity, and fitness goals.
 
 <br/>
 
-[Live Demo](#live-demo) · [Problem](#problem-statement) · [ML Workflow](#ml-workflow) · [Evaluation](#model-evaluation) · [Features](#input-features) · [Diet Plans](#predicted-diet-classes) · [Challenges](#challenges-solved) · [Setup](#installation-guide) · [Author](#author)
+[Problem](#problem-statement) · [ML Workflow](#ml-workflow) · [Features](#input-features) · [Diet Plans](#predicted-diet-classes) · [Model](#model-details) · [Setup](#installation-guide) · [Author](#author)
 
 </div>
 
 ---
 
-##  Live Demo
+## Problem Statement
 
-<div align="center">
+Most diet plans fail because they are **generic** — built for the average person, not for *you*.
 
-### 🔗 [diet-recommendation-system-2drzcfznrwqxxtr2ou6vny.streamlit.app](https://diet-recommendation-system-2drzcfznrwqxxtr2ou6vny.streamlit.app/)
-
-*Fill in your health profile → Instantly get your AI-recommended diet plan*
-
-</div>
-
----
-
-##  Problem Statement
-
-Most diet plans fail because they are **generic** — designed for the average person, not for *you*.
-
-Two people with the same weight-loss goal can need completely different nutrition strategies depending on age, activity level, blood sugar, and cholesterol. **Arogya Plan AI** solves this by training a K-Nearest Neighbors model on diverse health profiles to match users with their most suitable diet category.
+Two people with the same weight-loss goal can need completely different nutrition strategies depending on age, activity level, blood sugar, and cholesterol. **Arogya Plan AI** solves this by training a K-Nearest Neighbors model on health profiles to match users with their most suitable diet category.
 
 | Without Arogya Plan AI | With Arogya Plan AI |
 |---|---|
@@ -54,7 +40,7 @@ Two people with the same weight-loss goal can need completely different nutritio
 
 ---
 
-##  ML Workflow
+## ML Workflow
 
 ```
 User Health Input
@@ -75,26 +61,19 @@ User Health Input
 └──────────────────────────┘
        │
        ▼
-  Personalized Result 
+  Personalized Result
 ```
 
 ### Why KNN?
 
-- **Similarity-based** — naturally suited to recommendation and user personalization problems
-- **Interpretable** — easy to explain what "similar users eat" to non-technical stakeholders
+- **Similarity-based** — naturally suited to recommendation and personalization problems
+- **Interpretable** — easy to explain "similar users eat this" to non-technical stakeholders
 - **No distribution assumptions** — non-parametric, flexible for health data
-- **Fast inference** — real-time predictions suitable for model deployment in a web app
-
-### Notebooks
-
-| Notebook | Purpose |
-|---|---|
-| `Data Cleaning + EDA.ipynb` | Data preprocessing, missing value handling, feature inspection, class distribution analysis, outlier detection, correlation heatmaps |
-| `Diet Recommendation Using KNN Algorithm.ipynb` | Full machine learning pipeline — feature engineering, SMOTE resampling, hyperparameter tuning via GridSearchCV, predictive analytics evaluation, model deployment via pickle |
+- **Fast inference** — real-time predictions suitable for a live web app
 
 ---
 
-##  Input Features
+## Input Features
 
 | # | Feature | Type | Description |
 |---|---|---|---|
@@ -110,45 +89,21 @@ User Health Input
 
 ---
 
-##  Predicted Diet Classes
+## Predicted Diet Classes
 
 The trained KNN model predicts one of five categories:
 
 | Class | Diet Plan | Recommended For |
 |---|---|---|
-| 0 |  Low Carb Diet | Active users targeting fat loss |
-| 1 |  Diabetic Diet | High sugar levels or diabetic profiles |
-| 2 |  Heart Healthy Diet | Elevated cholesterol, cardiovascular focus |
-| 3 |  Balanced Diet | General maintenance and healthy living |
-| 4 |  High Protein Diet | Muscle gain and strength goals |
-
-**Sample meal output:**
-
-```
-Diet Predicted: High Protein Diet
-──────────────────────────────────
- Breakfast  │  Paneer scramble
- Lunch      │  Grilled chicken + rice
- Dinner     │  Protein shake + salad
-```
+| 0 | Low Carb Diet | Active users targeting fat loss |
+| 1 | Diabetic Diet | High sugar levels or diabetic profiles |
+| 2 | Heart Healthy Diet | Elevated cholesterol, cardiovascular focus |
+| 3 | Balanced Diet | General maintenance and healthy living |
+| 4 | High Protein Diet | Muscle gain and strength goals |
 
 ---
 
-##  Model Evaluation
-
-The project explored **5 pipeline variants** across forward/backward sequential feature selection, RFECV, SMOTE, SMOTEENN, and GridSearchCV tuning before landing on the final model. All evaluation used stratified 75/25 train/test splits with StratifiedKFold cross-validation to handle class imbalance (the Diabetic class dominated the 1,000-row dataset). Each pipeline was assessed on both **accuracy** and **macro F1** so minority diet classes weren't masked by the majority class.
-
-### Pipeline Comparison
-
-| # | Pipeline | Accuracy |
-|---|---|---|
-| 1 | Baseline KNN (RFECV + SMOTE) | 73.2% |
-| 2 | Forward Feature Selection + SMOTE | 88.0% |
-| 3 | Forward Feature Selection + GridSearchCV | 86.4% |
-| 4 | **Backward Feature Selection + GridSearchCV**  | **90.8%** |
-| 5 | Correlation-filtered (top 5) + GridSearchCV | 87.2% |
-
-### Final Model — Best Configuration
+## Model Details
 
 | Parameter | Value |
 |---|---|
@@ -156,73 +111,40 @@ The project explored **5 pipeline variants** across forward/backward sequential 
 | Feature Selection | Backward Sequential (5 features retained) |
 | Final Features | BMI · Activity Level · Sugar Level · Cholesterol · Goal |
 | Resampling | SMOTE (`k_neighbors=5`) |
-| Best K | **3** |
+| Best K | 3 |
 | Distance Metric | Manhattan |
 | Weight Function | Distance-weighted |
 | Hyperparameter Search | GridSearchCV over 5-fold StratifiedKFold |
 
-### Final Performance Metrics
-
-```
-Test Accuracy  :  90.8%
-Macro F1 Score :  89.4%
-Macro Recall   :  92.8%
-
-Per-class breakdown (test set):
- Class              Precision   Recall   F1
- ─────────────────────────────────────────
- Balanced Diet        0.88      1.00     0.94
- Diabetic Diet        0.98      0.88     0.93
- Heart Healthy        0.91      0.95     0.93
- High Protein         0.72      0.87     0.79
- Low Carb             0.85      ~0.85    ~0.85
-```
-
-### Why Feature Selection Mattered
-
-Correlation analysis in the EDA notebook showed that Age, Gender, Height, and Weight had weak predictive signal for diet category. Dropping them and retaining only the top 5 features (BMI, Activity Level, Sugar, Cholesterol, Goal) boosted accuracy from 73.2% → 90.8% — a concrete example of how **data preprocessing and feature engineering** directly drive model performance in a machine learning pipeline.
+Correlation analysis showed Age, Gender, Height, and Weight had weak predictive signal for diet category — dropping them and keeping the top 5 features noticeably improved model accuracy, a good example of feature engineering paying off in practice.
 
 ---
 
-## 📸 App Preview
+## App Preview
 
 <p align="center">
-
-<img src="assets/Project Screenshots/desktop view.png" width="48%" alt="Arogya Plan AI Input Screen" />
-<img src="assets/Project Screenshots/desktop-results 1.png" width="48%" alt="Arogya Plan AI Results Dashboard" />
-
+<img src="assets/screenshots/input-form.png" width="70%" alt="Arogya Plan AI Input Screen" />
 </p>
+<p align="center"><i>Input screen — dark, sports-app-inspired UI for entering health details.</i></p>
 
-<p align="center"><i>Desktop View: Input screen and personalized results dashboard with BMI gauge, KPI cards, and meal recommendations.</i></p>
+<p align="center">
+<img src="assets/screenshots/bmi-gauge.png" width="70%" alt="Arogya Plan AI BMI Gauge" />
+</p>
+<p align="center"><i>Results view — BMI gauge and personalized daily plan.</i></p>
 
 ---
 
-##  App Features
+## App Features
 
 Built with Streamlit, the app delivers a polished, responsive experience:
 
-- **Glassmorphism UI** — blurred card panels with a dark overlay background
+- **Dark, sports-app-inspired UI** with a bold accent color
 - **BMI Gauge Chart** — real-time Plotly gauge with colour-coded health zones
 - **KPI Metrics** — BMI, sugar, and cholesterol displayed as quick-read cards
-- **Daily Meal Cards** — Breakfast, Lunch, and Dinner for the recommended diet
+- **Daily Meal Cards** — Breakfast, Lunch, Dinner, Snacks, and Drinks for the recommended diet
+- **Calories Overview Chart** — estimated calorie breakdown per meal
 - **Try Again** — reset and re-run with new inputs without refreshing
 - **Session state management** — smooth two-screen flow (input → results)
-
----
-
-##  Challenges Solved
-
-Building a working ML pipeline for a recommendation problem came with several real engineering obstacles:
-
-**1. Class Imbalance** — The Diabetic Diet class dominated the dataset, causing the model to over-predict it. Solved by applying SMOTEENN (a combined oversampling + cleaning technique) and switching the primary evaluation metric to Macro F1, which weights all classes equally regardless of size.
-
-**2. Feature Noise** — Training on all 9 features initially hurt performance. Correlation analysis revealed that Age, Gender, Height, and Weight had weak predictive signal for diet category. Dropping them and retaining only the top 5 features (BMI, Activity Level, Sugar, Cholesterol, Goal) improved the model's generalisation — a core **feature engineering** decision.
-
-**3. Categorical Encoding for ML** — The KNN algorithm requires all-numeric input. Gender, Activity Level, and Goal were categorical strings in the raw dataset. These were mapped to ordinal integers in the preprocessing pipeline so the distance metric could operate correctly.
-
-**4. Streamlit UI State Management** — Streamlit reruns the entire script on every interaction. Managing the two-screen flow (input form → results dashboard) without losing user data required explicit `st.session_state` handling, which is non-obvious for first-time Streamlit developers.
-
-**5. Hyperparameter Tuning at Scale** — GridSearchCV across `n_neighbors` (3–31 odd), 2 weight options, 2 distance metrics, and 3 SMOTE settings created a large search space. Parallel execution (`n_jobs=-1`) and StratifiedKFold ensured results were both fast and statistically sound.
 
 ---
 
@@ -232,14 +154,14 @@ Building a working ML pipeline for a recommendation problem came with several re
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/akashsiliveru/diet-recommendation-system.git
-cd diet-recommendation-system
+git clone https://github.com/kiranalamuri/diet-recommendation.git
+cd diet-recommendation
 
 # 2. Install dependencies
 pip install -r requirements.txt
 
 # 3. Run the app
-streamlit run drs.py
+streamlit run app.py
 ```
 
 Open `http://localhost:8501` in your browser.
@@ -247,44 +169,40 @@ Open `http://localhost:8501` in your browser.
 > **Note:** The trained model file must be present at `model/model.pkl`. Run the KNN notebook first if you need to regenerate it.
 
 ---
-## 📂 Project Structure
+
+## Project Structure
 
 ```text
-diet-recommendation-system/
+diet-recommendation/
 │
-├──  .streamlit/
+├── .streamlit/
 │   └── config.toml                    # Streamlit configuration
 │
-├──  Source/
+├── Source/
 │   └── diet_recommendation_dataset_1000.xls   # Dataset file
 │
-├──  assets/
-│   ├──  Project Screenshots/
-│   │   ├── desktop view.png
-│   │   ├── desktop-results 1.png
-│   │   ├── desktop-results 2.png
-│   │   ├── mobile view.jpeg
-│   │   ├── mobile-results 1.jpeg
-│   │   └── mobile-results 2.jpeg
-│   │
-│   └──  images/
-│       └── bg1.png                    # Background UI image
+├── assets/
+│   ├── images/
+│   │   └── bg1.png                    # Background UI image
+│   └── screenshots/
+│       ├── input-form.png
+│       └── bmi-gauge.png
 │
-├──  model/
+├── model/
 │   └── model.pkl                      # Trained KNN model
 │
-├──  Data Cleaning + EDA.ipynb
-├──  Diet Recommendation Using KNN Algorithm.ipynb
+├── Data Cleaning + EDA.ipynb
+├── Diet Recommendation Using KNN Algorithm.ipynb
 │
-├──  drs.py
-├──  requirements.txt
-├──  README.md
-└──  .gitignore
-
+├── app.py
+├── requirements.txt
+├── README.md
+└── .gitignore
 ```
+
 ---
 
-##  Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
@@ -293,21 +211,18 @@ diet-recommendation-system/
 | Machine Learning | Scikit-learn (KNN) |
 | Web App | Streamlit |
 | Visualizations | Plotly |
-| UI Styling | Custom HTML + CSS (glassmorphism) |
+| UI Styling | Custom HTML + CSS |
 | Model Storage | Pickle (.pkl) |
 
+---
 
-##  Author
+## Author
 
 <div align="center">
 
-**Akash Siliveru**  
-*Aspiring Data Scientist*
+**Kiran Alamuri**
 
-[![GitHub](https://img.shields.io/badge/GitHub-akashsiliveru-181717?style=for-the-badge&logo=github)](https://github.com/akashsiliveru)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/akash-siliveru/)
-
-*Open to Data Science, ML Engineering, and Analytics roles.*
+[![GitHub](https://img.shields.io/badge/GitHub-kiranalamuri-181717?style=for-the-badge&logo=github)](https://github.com/kiranalamuri)
 
 </div>
 
@@ -317,11 +232,6 @@ diet-recommendation-system/
 
 **Built with ❤️ for healthier living**
 
-*Found this helpful? Drop a ⭐ — it keeps the project going!*
-
-[![GitHub stars](https://img.shields.io/github/stars/akashsiliveru/diet-recommendation-system?style=social)](https://github.com/akashsiliveru/diet-recommendation-system)
-[![GitHub forks](https://img.shields.io/github/forks/akashsiliveru/diet-recommendation-system?style=social)](https://github.com/akashsiliveru/diet-recommendation-system/network/members)
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff7e00,100:111827&height=120&section=footer" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:f9f900,100:111827&height=120&section=footer" />
 
 </div>
